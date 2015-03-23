@@ -1,3 +1,5 @@
 # Ignore undo files created by ViM
 *.un~
 *.ycm
+*.out
+
