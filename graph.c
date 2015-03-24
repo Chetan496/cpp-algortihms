@@ -93,13 +93,58 @@ void GraphAddVertex(graphADT graph , graphElementT elem){
       /*insert this new vertex at the end of the vertex list of the graph */
       vertexT* tempNode = NULL;
       APPEND_TO_LINKLIST(graph->vertices, newVertex, tempNode) ;
-      fprintf(stdout, "\n Added the vertex in the graph! \n") ;
+      fprintf(stdout, "\n Added the vertex in the graph \n") ;
    }
 }
 
-bool GraphIsReachable(vertexT* src, vertexT* dest) {
+
+void markAllVerticesNotVisited(graphADT graph){
+   /* iterate through all the vertices. Set visited = false*/
+   /* This method is required so that GraphIsReachable runs successfully for all all function calls */
+   vertexT* temp = graph->vertices;
+   while(temp!=NULL) {
+      temp->visited = false;
+      temp = temp->next;
+   }
+}
+
+bool GraphIsReachable(graphADT graph, vertexT* src, vertexT* dest) {
    /*This method returns if a vertex called dest is reachable from the vertex called source */
-   return true;
+   /* first set visited = false for all vertices */
+   if (src == dest) {
+      return true;
+   }else if(src->visited == true){
+      return false;
+   }else{
+      //visit all edges of vertexT* src
+      src->visited = true;
+      edgeT* tempe = src->edges;  //the first edge outgoing from this vertex
+      while(tempe != NULL){
+         if (GraphIsReachable(graph, tempe->connectsTo , dest) == false ) {
+            tempe = tempe->next;
+         }else{
+            return true;
+         }
+      }
+   }
+   return false;
+}
+
+bool isDestReachable(graphADT graph, graphElementT from, graphElementT to) {
+   if(graph == NULL){
+      return false;
+   }else{
+      vertexT* src = getVertex(graph,from);
+      vertexT* dest = getVertex(graph,to);
+      if(src == NULL || dest == NULL) {
+         return false;
+      }else{
+         /*The graph is not null. The vertices do exist in the graph. Get to work! find if dest is rechable from src */
+         /*first set visited = false for all vertices */
+         markAllVerticesNotVisited(graph);
+         return GraphIsReachable(graph, src, dest);
+      }
+   }
 }
 
 int main(){
@@ -111,5 +156,15 @@ int main(){
    GraphAddVertex(graph, 'E') ;
    
    GraphAddEdge( getVertex(graph, 'A'), getVertex(graph, 'C') ) ;
+   GraphAddEdge( getVertex(graph, 'C'), getVertex(graph, 'D') ) ;
+   GraphAddEdge( getVertex(graph, 'D'), getVertex(graph, 'E') ) ;
+   GraphAddEdge( getVertex(graph, 'B'), getVertex(graph, 'E') ) ;
+
+   printf("\n Is vertex E reachable from A? : %s \n ",   isDestReachable(graph, 'A', 'E')==true?"True":"False" ) ;
+   printf("\n Is vertex E reachable from B? : %s\n ",    isDestReachable(graph, 'B', 'E')==true?"True":"False" ) ;
+   printf("\n Is vertex D reachable from A? : %s \n ",   isDestReachable(graph, 'A', 'D')==true?"True":"False" ) ;
+   printf("\n Is vertex E reachable from D? : %s \n ",   isDestReachable(graph, 'D', 'E')==true?"True":"False" ) ;
+   printf("\n Is vertex B reachable from A? : %s \n ",   isDestReachable(graph, 'A', 'B')==true?"True":"False" ) ;
+   printf("\n Is vertex D reachable from C? : %s \n ",   isDestReachable(graph, 'C', 'D')==true?"True":"False" ) ;
    return 0;
 }
