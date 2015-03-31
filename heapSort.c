@@ -17,8 +17,9 @@ struct heapObj {
 typedef struct heapObj HeapObj;
 typedef HeapObj *HeapPtr;  
 
-void swap( int *num1, int *num2) { int t = *num1 ;   *num1 = *num2;   *num2 = t;}
+inline void swap( int *num1, int *num2) { int t = *num1 ;   *num1 = *num2;   *num2 = t;}
 
+/* This function maintains the heap property */
 void heapify(HeapPtr aHeap, size_t i) {
    size_t l = LEFT(i)   ;
    size_t r = RIGHT(i) ;

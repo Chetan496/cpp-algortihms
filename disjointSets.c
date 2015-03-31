@@ -24,12 +24,12 @@
 typedef struct SetElement_t {
    struct SetElement_t* parent;  /*only parent pointers, no child pointers */
    int rank;
-   int val;   /*Our setElements are simple ints */
+   void* val;   /*Our setElements are generic - we can store anything in it */
 }SetElement;
 
 /*the root node can represent the entire set a.k.a tree */
 /* this function takes an int, creates a SetElement from it and returns it. This SetElement will represent a new Set */
-SetElement* makeSet(int x) {
+SetElement* makeSet(void* x) {
    SetElement* S = (SetElement*) malloc(sizeof(SetElement));
    S->rank = 0;
    S->parent = S;
@@ -58,7 +58,6 @@ void link(SetElement* x, SetElement* y) {
          y->rank = y->rank + 1;
       }
    }
-
 }
 
 void Union(SetElement* x, SetElement* y) {
@@ -67,9 +66,9 @@ void Union(SetElement* x, SetElement* y) {
 
 int main(){
   int i1 = 2, i2 = 3, i3 = 5;
-  SetElement* s1 = makeSet(i1);
-  SetElement* s2 = makeSet(i2);
-  SetElement* s3 = makeSet(i3);
+  SetElement* s1 = makeSet(&i1);
+  SetElement* s2 = makeSet(&i2);
+  SetElement* s3 = makeSet(&i3);
    
   assert( findSet(s1) != findSet(s2) ) ;
   Union(s1, s2) ;
