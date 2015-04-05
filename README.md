@@ -7,7 +7,7 @@ This project is a learning exercise, with focus on getting comfortable with comm
 Feel free to fork this repository and improve upon my code.
 
 
-### Compiling and Executing the C programs:
+## Compiling and Executing the C programs:
 
 I have created a Makefile. For compiling them, use the command:
 make <programName>
