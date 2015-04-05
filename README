@@ -6,3 +6,10 @@ The implementation is based on the book "Introduction to Algorithms" by Thomas C
 This project is a learning exercise, with focus on getting comfortable with common data structures and algorithm techniques like dynamic programming.
 Feel free to fork this repository and improve upon my code.
 
+
+### Compiling and Executing the C programs:
+
+I have created a Makefile. For compiling them, use the command:
+make <programName>
+
+All the programs were compiled on a Linux machine(x86_64) with gcc 4.8
