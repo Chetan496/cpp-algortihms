@@ -163,13 +163,18 @@ int **initializeTemp(char *strArray[]) {
    //returns a 2d Array, each of which contains temperature
    //the 0th row and col will not be used. instead we will add extra row and col
    int **T = NULL ;
-   int rowTotal = 0;
+   int rowTotal = 0,  i;
    while( strArray[rowTotal] != NULL ) {
       rowTotal = rowTotal + 1;
 
    }
 
    T = (int **) calloc( rowTotal + 1, sizeof(int *) ) ;
+
+   for( i=1 ; i < rowTotal + 1 ; i++) {
+   
+      T[i] = getIntsFromTempString( strArray[i-1] ) ;
+   }
 
    return T ;
 }
