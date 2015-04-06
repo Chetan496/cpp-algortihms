@@ -181,7 +181,6 @@ int* getIntsFromTempString( char *str)
    int *arr = NULL ;
    //array size will be = num. of hashes in the string + 1
    int numOfTokens = 0, i = 0;
-   const char h[2] = "#" ;
    char *token ;
    while(str[i] != '\0') {
       if (str[i] == '#') {
@@ -191,10 +190,18 @@ int* getIntsFromTempString( char *str)
    //there are (numTokens + 1) numbers in the string str
    //we need one extra col.
    arr = (int *)calloc( (numOfTokens + 2) , sizeof(int)) ;
+   
+   token = strtok(str, "#") ;
+   for (i=1; i <= (numOfTokens + 1) ; i++) {
+      arr[i] = myAtoi(token) ;
+      token = strtok(NULL, "#") ;
 
-   for (i=1; i <= (numOfTokens + 1); i++) {
-      arr[i]  = strtok( )  ;
+      if (token == NULL){
+         break ;
+      }
    }
+
+   return arr ;
 
 }
 
