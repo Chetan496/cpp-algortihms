@@ -5,52 +5,63 @@
 #define true 1
 #define false 0
 
-#define INFINITY 3000
+#define INFINITY 1000
 
 typedef struct Pos_t
 {
    int x;
    int y;
-} Pos_t, * Pos_p ;
+} Pos_t ;
+
+typedef struct Pos_t *Pos_p ;
 
 typedef struct Rat_t
 {
    Pos_p pos ;
-} Rat_t, * Rat_p ;
+} Rat_t ;
 
-typedef enum Dir {UP,RIGHT, LOWER, LEFT, NODIR} Dir;
+typedef struct Rat_t *Rat_p ;
 
-int abs_value( int t1, int t2) ;
+typedef enum Dir
+{ 
+  UP,
+  RIGHT,
+  LOWER,
+  LEFT,
+  NODIR
+} Dir;
 
-int change_in_temp( int **T, int x1, int y1, int x2, int y2 )  ;
+int abs_value(int t1, int t2) ;
 
-Dir bestDirToMove(int **T, int maxX, int maxY, Pos_p pos ) ;
+int change_in_temp(int **T, int x1, int y1, int x2, int y2 )  ;
+
+Dir bestDirToMove(int **T, int maxX, int maxY, Pos_p pos) ;
 
 void move(Rat_p rat, Dir dir) ;
 
 void moveRat(Rat_p rat, int **T, int maxX, int maxY) ;
 
-Pos_p initializePos( int x, int y ) ;
+Pos_p initializePos(int x, int y ) ;
 
-int** initializeTemp(char *strArray[]) ;
+int **initializeTemp(char **strArray) ;
 
 Rat_p initializeRat(Pos_p p) ;
 
 Rat_p initializeRatFromStr(char *str) ;
 
-char* getPosAsStr(Pos_p p) ;
+char *getPosAsStr(Pos_p p) ;
 
 Pos_p getPosFromStr(char *str) ;
 
-void reverse(char str[], int length) ;
+void reverse(char *str, int length) ;
 
-char* itoa(int num, char *buffer, int base) ;
+char *itoa(int num, char *buffer, int base) ;
 
 int myAtoi(char *str) ;
 
-int* getIntsFromTempString( char *str) ;
+int *getIntsFromTempString(char *str) ;
 
-int getLengthOfStrArray(char *str[]) ;
+int getLengthOfStrArray(char **str) ;
 
 int getMaxY(char *str) ;
 
@@ -86,19 +97,19 @@ char** RatsPostions(char* input1[], char* input2[], int input3)
 	return finalRatPos ;
 }
 
-int abs_value( int t1, int t2)
+int abs_value(int t1, int t2)
 {
    int diff = t1 - t2 ;
    return ( ( diff < 0 ) ? (-1 * diff) : diff  ) ;
 }
 
-int change_in_temp( int **T, int x1, int y1, int x2, int y2) 
+int change_in_temp(int **T, int x1, int y1, int x2, int y2) 
 {
-   return abs_value( T[x1][y1], T[x2][y2] ) ;
+   return (abs_value( T[x1][y1], T[x2][y2] ) ) ;
 
 }
 
-Dir bestDirToMove(  int **T, int maxX, int maxY,  Pos_p pos ) 
+Dir bestDirToMove(int **T, int maxX, int maxY,  Pos_p pos ) 
 {
    int x = pos->x;
    int y = pos->y ;
@@ -223,7 +234,7 @@ Pos_p initializePos(int x, int y)
    return p ;
 }
 
-int **initializeTemp(char *strArray[])
+int **initializeTemp(char **strArray)
 {
    int **T = NULL ;
    int rowTotal = 0,  i;
@@ -244,7 +255,7 @@ int **initializeTemp(char *strArray[])
    return T ;
 }
 
-int* getIntsFromTempString( char *str) 
+int *getIntsFromTempString(char *str) 
 {
    int *arr = NULL ;
    int numOfHashes = 0, i = 0;
@@ -325,7 +336,7 @@ Pos_p getPosFromStr(char *str)
    return p ;
 }
 
-void reverse(char str[], int length)
+void reverse(char *str, int length)
 {
     int start = 0;
     int end = length -1;
@@ -339,7 +350,7 @@ void reverse(char str[], int length)
     }
 }
 
-char* itoa(int num, char* str, int base)
+char* itoa(int num, char *str, int base)
 {
     int i = 0;
     int isNegative = false;
@@ -412,8 +423,11 @@ int getMaxY(char *str)
    return (numOfHashes + 1) ;
 }
 
-int getLengthOfStrArray(char *str[]) 
+int getLengthOfStrArray(char **str) 
 {	
+	if(str == NULL) {
+		return 0 ;
+	}
 	int i = 0;
 	while(str[i] != NULL) 
         {
